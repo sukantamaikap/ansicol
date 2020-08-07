@@ -1,0 +1,70 @@
+version: "3.7"
+
+services:
+
+  control:
+    build: control/.
+    hostname: control
+    tty: true
+    networks:
+      local:
+        ipv4_address: 10.6.0.11
+    volumes:
+      - type: bind
+        source: ./src
+        target: /opt/sandbox/src
+
+  u1:
+    build: generic/ubuntu/.
+    hostname: u1
+    tty: true
+    networks:
+      local:
+        ipv4_address: 10.6.0.7
+
+  u2:
+    build: generic/ubuntu/.
+    hostname: u2
+    tty: true
+    networks:
+      local:
+        ipv4_address: 10.6.0.2
+
+  u3:
+    build: generic/ubuntu/.
+    hostname: u2
+    tty: true
+    networks:
+      local:
+        ipv4_address: 10.6.0.3
+  
+  c1:
+    build: generic/centos/.
+    hostname: c1
+    tty: true
+    networks:
+      local:
+        ipv4_address: 10.6.0.4
+
+  c2:
+    build: generic/centos/.
+    hostname: c2
+    tty: true
+    networks:
+      local:
+        ipv4_address: 10.6.0.5
+  
+  c3:
+    build: generic/centos/.
+    hostname: c3
+    tty: true
+    networks:
+      local:
+        ipv4_address: 10.6.0.6
+
+networks:
+  local:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.6.0.0/16
