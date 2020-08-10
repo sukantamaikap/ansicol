@@ -9,6 +9,8 @@ RUN apt-get -y update \
     curl \
     openssh-client \
     vim \
+    nmap \
+    net-tools \
     && ansible --version
 
 # points to the config file mentioned here
@@ -16,6 +18,6 @@ ENV ANSIBEL_CONFIG=/opt/sandbox/src/ansible.cfg
 # for ignoring host fingerprint
 ENV ANSIBLE_HOST_KEY_CHECKING=False
 
-WORKINGDIR /opt/sandbox/src/
+WORKDIR /opt/sandbox/src/
 
 CMD ["/bin/bash"]

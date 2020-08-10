@@ -6,11 +6,15 @@ RUN yum -y update \
     && yum install -y \ 
     iputils \
     openssh-server \
+    nmap \
+    net-tools \
     passwd
 
 ADD ./start.sh /start.sh
 RUN mkdir /var/run/sshd
-
+RUN echo 'root:root' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config &&\
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' 
 
 RUN chmod 755 /start.sh
