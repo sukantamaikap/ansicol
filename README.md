@@ -1,7 +1,15 @@
-# ansible-exercises
+# ansicol
 This containes a testbed entirely on docker-compose for experimenting with ansible. The setup consists of 3 centos7 containers and 3 Ubuntu18.08 container as target hosts and a control host from where to run the ansible playbooks.
 
-The src folder is mounted to /opt/sandbox/src of the control container.
+## What is the environment setup?
+There is a control host followed by 3 Centos 7 and 3 Ubuntu 16.04 hosts. The src folder is mounted to ```bash /opt/sandbox/src``` of the control container. 
+
+Each non-control host has the below users and password:
+```bash
+root:root
+ansicol:ansicol
+```
+ansicol is a sudor.
 
 ## How to start the environment?
 Go to the root of the project and run:
@@ -55,11 +63,41 @@ rtt min/avg/max/mdev = 0.143/0.257/0.445/0.134
 
 etc
 ```
-3. Validate the control host can ssh to all target hosts
+3. Validate the control host can ssh to all target hosts as ansicol user (password: ansicol)
+```bash
+ansible/ansicol [ docker container exec -it ansicol_control_1 bash                                                                        master ] 8:35 pm
+root@control:/opt/sandbox/src# ssh ansicol@c1
+ansicol@c1's password:
+Last login: Tue Aug 11 10:34:04 2020 from ansicol_control_1.ansicol_local
+[ansicol@c1 ~]$ sudo su
+[root@c1 ansicol]#
+
+root@control:/opt/sandbox/src# ssh ansicol@u1
+The authenticity of host 'u1 (10.6.0.7)' can't be established.
+ECDSA key fingerprint is SHA256:a71Z38MkY/MVx569IiV9ZNvqUAKZa5IMMDHKEKUEZco.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'u1,10.6.0.7' (ECDSA) to the list of known hosts.
+ansicol@u1's password:
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.19.76-linuxkit x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+$ sudo su
+root@u1:/home/ansicol#
+```
+Now we are all set!!!
 
 ## What are the development workflow?
 1. On your host machine, using your favourite editor, compose any playbook.
 2. Update the hosts file as required.
 3. Connect to control container, and run the playbook
->> 
-# ansicol
+
